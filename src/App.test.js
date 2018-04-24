@@ -35,21 +35,24 @@ it('renders without crashing', () => {
   ReactDOM.render(<App />, div)
 })
 
-it('gets list of Books on DidMount stage of lifecycle and stores on state', () => {
-  const app = shallow(<App />);
-  app.instance().componentDidMount();
-  expect(BooksAPI.getAll).toHaveBeenCalled();
-})
+describe('App restAPI calls', () => {
+  it('gets list of Books on DidMount stage of lifecycle and stores on state', () => {
+    const app = shallow(<App />);
+    app.instance().componentDidMount();
+    expect(BooksAPI.getAll).toHaveBeenCalled();
+  })
 
-it('moves a book between shelves', () => {
-  const app = shallow(<App />);
-  app.instance().moveBook();
-  expect(BooksAPI.update).toHaveBeenCalled();
-})
+  it('moves a book between shelves', () => {
+    const app = shallow(<App />);
+    app.instance().moveBook();
+    expect(BooksAPI.update).toHaveBeenCalled();
+  })
 
-it('searches for books', () => {
-  const query = 'linux'
-  const app = shallow(<App />);
-  app.instance().searchBooks(query);
-  expect(BooksAPI.search).toHaveBeenCalledWith(query);
+  it('searches for books', () => {
+    const query = 'linux'
+    const app = shallow(<App />);
+    app.instance().searchBooks(query);
+    expect(BooksAPI.search).toHaveBeenCalledWith(query);
+  })
+
 })
