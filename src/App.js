@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { Component } from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 
-class BooksApp extends React.Component {
+class BooksApp extends Component {
   state = {
     books: [],
     searchResults: []
   }
 
   componentDidMount() {
+    // set state with list of books pulled from external restAPI
     BooksAPI.getAll().then(books => { this.setState({books}) })
   }
 
@@ -20,8 +21,11 @@ class BooksApp extends React.Component {
 */
   moveBook = (book, shelf) => {
     BooksAPI.update(book, shelf).then(book => {
-      this.setState(state => ({ books: state.books.filter(_book => _book.id !== book.id)
-                                                  .concat([book]) })
+      this.setState(state => ({
+        books: state.books
+          .filter(_book => _book.id !== book.id)
+          .concat([book])
+        })
       )}
     )
   }
