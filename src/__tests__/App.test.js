@@ -1,15 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { shallow } from 'enzyme';
-import App from './App'
+import App from '../App'
 
-import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from '../BooksAPI'
 
 
 /**
   * Mocking API requests
   */
-jest.mock('./BooksAPI', () => {
+jest.mock('../BooksAPI', () => {
   //sample list of books
   const books = [
     {id: 1, title:"The Linux Command Line",authors:["William E. Shotts, Jr."],publisher:"No Starch Press"},
