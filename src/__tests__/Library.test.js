@@ -21,7 +21,9 @@ describe('Library', () => {
     expect(libraryComponent.text()).toContain('MyReads')
   })
 
-  it('contains 3 shelves')
+  it('contains 3 shelves', () => {
+    expect(libraryComponent.find('.bookshelf').length).toEqual(3)
+  })
 
   it('contains Currently Reading shelf', () => {
     expect(libraryComponent.text()).toContain('Currently Reading')
