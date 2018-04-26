@@ -1,27 +1,31 @@
 import React, { Component } from 'react'
 import Library from './components/Library'
 import Search from './components/Search'
+import { Route } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 
 class BooksApp extends Component {
   state = {
     books: [],
-    searchResults: [],
-    showSearchPage: false
+    searchResults: []
   }
 
-  componentDidMount() {
-    // set state with list of books pulled from external restAPI
-    BooksAPI.getAll().then(books => { this.setState({books}) })
-  }
+  componentDidMount = () => this.listBooks()
 
-/**
-* @description persists book shelf upadate and updates state
-* @param book <Object> containing at minimum an id attribute
-* @param shelf <String> contains one of ["wantToRead", "currentlyReading", "read"]
-* @returns updated state.books
-*/
+
+  /**
+  * @description Get list of books
+  * @returns updates state.books
+  */
+  listBooks = () => BooksAPI.getAll().then(books => { this.setState({books}) })
+
+  /**
+  * @description persists book shelf upadate and updates state
+  * @param book <Object> containing at minimum an id attribute
+  * @param shelf <String> contains one of ["wantToRead", "currentlyReading", "read"]
+  * @returns updates state.books
+  */
   moveBook = (book, shelf) => {
     BooksAPI.update(book, shelf).then(book => {
       this.setState(state => ({
@@ -33,26 +37,31 @@ class BooksApp extends Component {
     )
   }
 
-/**
-* @description search books
-* @param book <Object> containing at minimum an id attribute
-* @param shelf <String> contains one of ["wantToRead", "currentlyReading", "read"]
-* @returns state.searchResults
-*/
-  searchBooks = (query) => {
-    BooksAPI.search(query).then(searchResults => this.setState({searchResults}) )
-  }
+  /**
+  * @description search books
+  * @param query <String> serach ctiteria for author or title
+  * @returns state.searchResults
+  */
+  searchBooks = (query) => BooksAPI.search(query).then(searchResults => this.setState({ searchResults }))
 
 
   render() {
-    const { books, searchResults, showSearchPage } = this.state
+    const { books, searchResults } = this.state
     return (
       <div className="app">
-        {showSearchPage ? (
-          <Search searchResults={searchResults} />
-        ) : (
-          <Library books={books} />
-        )}
+
+
+            <Route exact path='/' render={ () => (
+                <Library books={books} />
+              )}
+            />
+
+            <Route  path='/search' render={ () => (
+                <Search searchResults={searchResults} />
+              )}
+            />
+
+        
       </div>
     )
   }

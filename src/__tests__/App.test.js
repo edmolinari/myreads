@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { shallow } from 'enzyme';
+import { BrowserRouter } from 'react-router-dom'
 import App from '../App'
 
 import * as BooksAPI from '../BooksAPI'
@@ -30,27 +31,31 @@ jest.mock('../BooksAPI', () => {
 });
 
 
-it('renders without crashing', () => {
+it('renders within a BrowserRouter context', () => {
   const div = document.createElement('div')
-  ReactDOM.render(<App />, div)
+  ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, div)
 })
 
 describe('App restAPI calls', () => {
-  it('gets list of Books on DidMount stage of lifecycle and stores on state', () => {
-    const app = shallow(<App />);
-    app.instance().componentDidMount();
+  const app = shallow(<App />);
+
+  it('gets list of Books on DidMount stage of lifecycle and stores on state', async () => {
+    await app.instance().componentDidMount();
+    expect(app.state().books.length).toEqual(5)
+  })
+
+  it('lists books', () => {
+    app.instance().listBooks();
     expect(BooksAPI.getAll).toHaveBeenCalled();
   })
 
   it('moves a book between shelves', () => {
-    const app = shallow(<App />);
     app.instance().moveBook();
     expect(BooksAPI.update).toHaveBeenCalled();
   })
 
   it('searches for books', () => {
     const query = 'linux'
-    const app = shallow(<App />);
     app.instance().searchBooks(query);
     expect(BooksAPI.search).toHaveBeenCalledWith(query);
   })
