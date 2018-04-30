@@ -3,30 +3,18 @@ import ReactDOM from 'react-dom'
 import { shallow } from 'enzyme';
 import { BrowserRouter } from 'react-router-dom'
 import App from '../App'
+import { mockBooks, mockBook } from '../__fixtures__/fixtures'
 
 import * as BooksAPI from '../BooksAPI'
-
 
 /**
   * Mocking API requests
   */
 jest.mock('../BooksAPI', () => {
-  //sample list of books
-  const books = [
-    {id: 1, title:"The Linux Command Line",authors:["William E. Shotts, Jr."],publisher:"No Starch Press"},
-    {id: 2, title:"Learning Web Development with React and Bootstrap",authors:["Harmeet Singh","Mehul Bhatt"]},
-    {id: 3, title:"The Cuckoo's Calling",authors:["Robert Galbraith"],publisher:"Mulholland Books"},
-    {id: 4,title:"Lords of Finance",authors:["Liaquat Ahamed"],publisher:"Penguin"},
-    {id: 5,title:"Needful Things",authors:["Stephen King"],publisher:"Simon and Schuster"}
-  ]
-
-  //sample book
-  const book = {title:"The Linux Command Line",authors:["William E. Shotts, Jr."],publisher:"No Starch Press"}
-
   return {
-    getAll: jest.fn(() => Promise.resolve(books)),
-    update: jest.fn(() => Promise.resolve(book)),
-    search: jest.fn(() => Promise.resolve(book)),
+    getAll: jest.fn(() => Promise.resolve(mockBooks)),
+    update: jest.fn(() => Promise.resolve(mockBook)),
+    search: jest.fn(() => Promise.resolve(mockBook)),
   };
 });
 

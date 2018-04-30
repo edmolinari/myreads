@@ -1,16 +1,12 @@
 import React from 'react'
 import { shallow } from 'enzyme';
 import Library from '../components/Library'
+import Shelf from '../components/Shelf'
+import { mockBooks } from '../__fixtures__/fixtures'
 
 describe('Library', () => {
-  const books = [
-    {id: 1, title:"The Linux Command Line",authors:["William E. Shotts, Jr."],publisher:"No Starch Press"},
-    {id: 2, title:"Learning Web Development with React and Bootstrap",authors:["Harmeet Singh","Mehul Bhatt"]},
-    {id: 3, title:"The Cuckoo's Calling",authors:["Robert Galbraith"],publisher:"Mulholland Books"},
-    {id: 4,title:"Lords of Finance",authors:["Liaquat Ahamed"],publisher:"Penguin"},
-    {id: 5,title:"Needful Things",authors:["Stephen King"],publisher:"Simon and Schuster"}
-  ]
-  const minProps = { books: books }
+
+  const minProps = { books: mockBooks }
   const libraryComponent = shallow(<Library {...minProps} />)
 
   it('renders properly', () => {
@@ -21,19 +17,28 @@ describe('Library', () => {
     expect(libraryComponent.text()).toContain('MyReads')
   })
 
+  it('has list of books content section', () =>{
+    expect(libraryComponent.find('.list-books-content').length).toEqual(1)
+  })
+
   it('contains 3 shelves', () => {
-    expect(libraryComponent.find('.bookshelf').length).toEqual(3)
+    expect(libraryComponent.find(Shelf).length).toEqual(3)
   })
 
   it('contains Currently Reading shelf', () => {
-    expect(libraryComponent.text()).toContain('Currently Reading')
+    expect(libraryComponent.find('Shelf[type="currentlyReading"]').length).toEqual(1)
   })
 
   it('contains Want to Read shelf', () => {
-    expect(libraryComponent.text()).toContain('Want to Read')
+    expect(libraryComponent.find('Shelf[type="read"]').length).toEqual(1)
   })
 
   it('contains Read shelf', () => {
-    expect(libraryComponent.text()).toContain('Read')
+    expect(libraryComponent.find('Shelf[type="wantToRead"]').length).toEqual(1)
   })
+
+  it('has search feature', () => {
+    expect(libraryComponent.find('Link[to="/search"]').length).toEqual(1)
+  })
+
 })
