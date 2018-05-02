@@ -1,16 +1,14 @@
 import React from 'react'
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
+import { BrowserRouter, Route } from 'react-router-dom'
 import Search from '../components/Search'
+import { mockBooks, onMoveBookMock, onSearchMock } from '../__fixtures__/fixtures'
 
 describe('Search', () => {
-  const books = [
-    {id: 1, title:"The Linux Command Line",authors:["William E. Shotts, Jr."],publisher:"No Starch Press"},
-    {id: 2, title:"Learning Web Development with React and Bootstrap",authors:["Harmeet Singh","Mehul Bhatt"]},
-    {id: 3, title:"The Cuckoo's Calling",authors:["Robert Galbraith"],publisher:"Mulholland Books"},
-    {id: 4,title:"Lords of Finance",authors:["Liaquat Ahamed"],publisher:"Penguin"},
-    {id: 5,title:"Needful Things",authors:["Stephen King"],publisher:"Simon and Schuster"}
-  ]
-  const minProps = { searchResults: books }
+  const minProps = { searchResults: mockBooks,
+    onMoveBook: onMoveBookMock,
+    onSearch:  onSearchMock
+  }
   const searchComponent = shallow(<Search {...minProps} />)
 
   it('renders properly', () => {
@@ -18,15 +16,22 @@ describe('Search', () => {
   })
 
   it('has input text for search queries', () => {
-    const expectedProps = {
-      type: 'text',
-      name: 'query',
-      placeholder: 'Search by title or author' }
-    expect(searchComponent.find('input').props()).toEqual(expectedProps)
+    expect(searchComponent.find('input').props().name).toEqual('query')
   })
 
   it('has search books results section', () => {
     expect(searchComponent.find('.search-books-results').length).toEqual(1)
+  })
+
+  describe('search action', () => {
+    const query = 'testQuery'
+    const onSearchSpy = jasmine.createSpy('onSearch')
+    const searchComponent = shallow(<Search searchResults={mockBooks} onMoveBook={onMoveBookMock} onSearch={onSearchSpy} />)
+
+    it('calls onSearch action', () => {
+      searchComponent.find('input').simulate('change',{target: {value: query}})
+      expect(onSearchSpy).toHaveBeenCalledWith(query)
+    })
   })
 
 })
