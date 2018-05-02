@@ -24,18 +24,10 @@ class BooksApp extends Component {
   * @description persists book shelf upadate and updates state
   * @param book <Object> containing at minimum an id attribute
   * @param shelf <String> contains one of ["wantToRead", "currentlyReading", "read"]
-  * @returns updates state.books
+  * @returns calls listBooks to update state
   */
-  moveBook = (book, shelf) => {
-    BooksAPI.update(book, shelf).then(book => {
-      this.setState(state => ({
-        books: state.books
-          .filter(_book => _book.id !== book.id)
-          .concat([book])
-        })
-      )}
-    )
-  }
+  moveBook = (book, shelf) => BooksAPI.update(book, shelf).then(book => this.listBooks())
+
 
   /**
   * @description search books
@@ -50,7 +42,7 @@ class BooksApp extends Component {
     return (
       <div className="app">
         <Route exact path='/' render={ () => (
-            <Library books={books} />
+            <Library books={books} onMoveBook={this.moveBook} />
           )}
         />
 
