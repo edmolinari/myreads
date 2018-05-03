@@ -42,12 +42,20 @@ class BooksApp extends Component {
     return (
       <div className="app">
         <Route exact path='/' render={ () => (
-            <Library books={books} onMoveBook={this.moveBook} />
+            <Library
+              books={[...books]}
+              onMoveBook={this.moveBook}
+            />
           )}
         />
 
         <Route  path='/search' render={ () => (
-            <Search searchResults={searchResults} />
+            <Search
+              books={[...books]}
+              searchResults={[...searchResults]}
+              onMoveBook={this.moveBook}
+              onSearch={this.searchBooks}
+            />
           )}
         />
       </div>

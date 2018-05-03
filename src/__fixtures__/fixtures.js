@@ -70,3 +70,5 @@ export const mockBook = {
 
 //mock onMoveBook func
 export const onMoveBookMock = () => true
+//mock onSearch func
+export const onSearchMock = () => mockBooks
