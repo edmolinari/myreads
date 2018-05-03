@@ -1,13 +1,13 @@
 import React from 'react'
-import propType from 'prop-types'
+import propTypes from 'prop-types'
 
-const Book = ({book}) => (
+const Book = ({book, onMoveBook}) => (
   <div className="book">
     <div className="book-top">
-      <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.smallThumbnail}")` }}></div>
+      <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks && book.imageLinks.smallThumbnail}")` }}></div>
       <div className="book-shelf-changer">
-        <select>
-          <option value="none" disabled>Move to...</option>
+        <select value={book.shelf || 'none'} onChange={(event) => onMoveBook(book, event.target.value)}>
+          <option value="" disabled>Move to...</option>
           <option value="currentlyReading">Currently Reading</option>
           <option value="wantToRead">Want to Read</option>
           <option value="read">Read</option>
@@ -16,12 +16,13 @@ const Book = ({book}) => (
       </div>
     </div>
     <div className="book-title">{book.title}</div>
-    <div className="book-authors">{book.authors.join(", ")}</div>
+    <div className="book-authors">{book.authors && book.authors.join(", ")}</div>
   </div>
 )
 
 Book.propTypes = {
-  book: propType.object.isRequired
+  book: propTypes.object.isRequired,
+  onMoveBook: propTypes.func.isRequired
 }
 
 export default Book

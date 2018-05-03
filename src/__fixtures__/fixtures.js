@@ -67,3 +67,8 @@ export const mockBook = {
   publisher:"No Starch Press",
   shelf: "read"
 }
+
+//mock onMoveBook func
+export const onMoveBookMock = () => true
+//mock onSearch func
+export const onSearchMock = () => mockBooks

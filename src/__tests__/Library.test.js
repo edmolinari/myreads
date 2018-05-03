@@ -2,11 +2,11 @@ import React from 'react'
 import { shallow } from 'enzyme';
 import Library from '../components/Library'
 import Shelf from '../components/Shelf'
-import { mockBooks } from '../__fixtures__/fixtures'
+import { mockBooks, onMoveBookMock } from '../__fixtures__/fixtures'
 
 describe('Library', () => {
 
-  const minProps = { books: mockBooks }
+  const minProps = { books: mockBooks, onMoveBook: onMoveBookMock }
   const libraryComponent = shallow(<Library {...minProps} />)
 
   it('renders properly', () => {
