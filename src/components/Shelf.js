@@ -6,7 +6,8 @@ class Shelf extends Component {
 
   static propTypes =  {
     type: propTypes.string.isRequired, //[read, currentlyReading, wantToRead]
-    books: propTypes.array.isRequired
+    books: propTypes.array.isRequired,
+    onMoveBook: propTypes.func.isRequired
   }
 
   /**
@@ -41,7 +42,7 @@ class Shelf extends Component {
   filteredBooks = (books, type) => books.filter(book => book.shelf === type)
 
   render() {
-    const { books, type } = this.props
+    const { books, type, onMoveBook } = this.props
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">{this.defineTitle(type)}</h2>
@@ -51,7 +52,7 @@ class Shelf extends Component {
               this.filteredBooks(books, type).map(book => {
                 return (
                   <li key={book.id}>
-                    <Book book={book} />
+                    <Book book={book} onMoveBook={onMoveBook} />
                   </li>
                 )
               })
