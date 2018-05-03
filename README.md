@@ -1,7 +1,7 @@
 # MyReads Project
 
 
-This is a project for Udacity nanodegree React course - Module 1
+This is a project for Udacity React Nanodegree Program course - module 1. It consists in a bookshelf app that allows the user to select and categorize books he has read, is currently reading, or wants to read.
 
 ## Install instructions
 
