@@ -6,6 +6,7 @@ import { mockBooks, onMoveBookMock, onSearchMock } from '../__fixtures__/fixture
 
 describe('Search', () => {
   const minProps = { searchResults: mockBooks,
+    books: [],
     onMoveBook: onMoveBookMock,
     onSearch:  onSearchMock
   }
@@ -26,7 +27,7 @@ describe('Search', () => {
   describe('search action', () => {
     const query = 'testQuery'
     const onSearchSpy = jasmine.createSpy('onSearch')
-    const searchComponent = shallow(<Search searchResults={mockBooks} onMoveBook={onMoveBookMock} onSearch={onSearchSpy} />)
+    const searchComponent = shallow(<Search searchResults={mockBooks} books={[]} onMoveBook={onMoveBookMock} onSearch={onSearchSpy} />)
 
     it('calls onSearch action', () => {
       searchComponent.find('input').simulate('change',{target: {value: query}})

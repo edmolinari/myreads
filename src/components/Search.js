@@ -3,7 +3,7 @@ import Book from './Book'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-const Search = ({searchResults, onSearch, onMoveBook}) => {
+const Search = ({searchResults, books, onSearch, onMoveBook}) => {
   return (
     <div className="search-books">
       <div className="search-books-bar">
@@ -24,7 +24,9 @@ const Search = ({searchResults, onSearch, onMoveBook}) => {
           { searchResults.length > 0 &&
             searchResults.map(book => (
               <li key={book.id}>
-                <Book book={book} onMoveBook={onMoveBook} />
+                <Book
+                  book={books.filter(mybook => mybook.id === book.id).shift() || book }
+                  onMoveBook={onMoveBook} />
               </li>
             ))
           }
@@ -35,6 +37,7 @@ const Search = ({searchResults, onSearch, onMoveBook}) => {
 }
 Search.propTypes = {
   searchResults: PropTypes.array.isRequired,
+  books: PropTypes.array.isRequired,
   onSearch: PropTypes.func.isRequired,
   onMoveBook: PropTypes.func.isRequired
 }

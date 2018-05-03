@@ -43,7 +43,7 @@ class BooksApp extends Component {
       <div className="app">
         <Route exact path='/' render={ () => (
             <Library
-              books={books}
+              books={[...books]}
               onMoveBook={this.moveBook}
             />
           )}
@@ -51,7 +51,8 @@ class BooksApp extends Component {
 
         <Route  path='/search' render={ () => (
             <Search
-              searchResults={searchResults}
+              books={[...books]}
+              searchResults={[...searchResults]}
               onMoveBook={this.moveBook}
               onSearch={this.searchBooks}
             />
