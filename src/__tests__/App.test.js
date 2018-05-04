@@ -14,7 +14,7 @@ jest.mock('../BooksAPI', () => {
   return {
     getAll: jest.fn(() => Promise.resolve(mockBooks)),
     update: jest.fn(() => Promise.resolve(mockBook)),
-    search: jest.fn(() => Promise.resolve(mockBook)),
+    search: jest.fn(() => Promise.resolve([mockBook])),
   };
 });
 
@@ -42,10 +42,25 @@ describe('App restAPI calls', () => {
     expect(BooksAPI.update).toHaveBeenCalled();
   })
 
-  it('searches for books', () => {
+  describe('Search logic', () => {
     const query = 'linux'
-    app.instance().searchBooks(query);
-    expect(BooksAPI.search).toHaveBeenCalledWith(query);
+    it('searches for books', () => {
+      app.instance().searchBooks(query);
+      expect(BooksAPI.search).toHaveBeenCalledWith(query);
+    })
+
+    it('fetch search results and stores on state', async () => {
+      await app.instance().searchBooks(query);
+      expect(app.state().searchResults).toEqual([mockBook])
+    })
+
+    it('cleans sear results state when search api fails', async () => {
+      BooksAPI.search.mockImplementation(() => Promise.reject(undefined))
+      await app.instance().searchBooks(query);
+      expect(app.state().searchResults).toEqual([])
+    })
+
   })
+
 
 })

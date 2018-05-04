@@ -14,7 +14,7 @@ const Search = ({searchResults, books, onSearch, onMoveBook}) => {
             type="text"
             name='query'
             placeholder="Search by title or author"
-            onChange={(event) => event.target.value.length === 0 ? null : onSearch(event.target.value)}
+            onChange={(event) => onSearch(event.target.value)}
           />
 
         </div>
