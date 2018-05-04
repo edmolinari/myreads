@@ -34,7 +34,10 @@ class BooksApp extends Component {
   * @param query <String> serach ctiteria for author or title
   * @returns state.searchResults
   */
-  searchBooks = (query) => BooksAPI.search(query).then(searchResults => this.setState({ searchResults }))
+  searchBooks = (query) =>
+    BooksAPI.search(query)
+      .then(searchResults => this.setState({ searchResults }))
+      .catch(error => this.setState({ searchResults: [] }))
 
 
   render() {

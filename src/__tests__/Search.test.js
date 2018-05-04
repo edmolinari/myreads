@@ -33,6 +33,10 @@ describe('Search', () => {
       searchComponent.find('input').simulate('change',{target: {value: query}})
       expect(onSearchSpy).toHaveBeenCalledWith(query)
     })
+    it('calls onSearch action for empty queries as well', () => {
+      searchComponent.find('input').simulate('change',{target: {value: ''}})
+      expect(onSearchSpy).toHaveBeenCalledWith('')
+    })
   })
 
 })
